@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.apporeo.navigation.AppScreens
 import androidx.compose.ui.res.painterResource
+import com.example.apporeo.R
 
 @Composable
 fun LoginScreen(navController: NavController){
@@ -40,7 +41,7 @@ fun LoginScreen(navController: NavController){
         verticalArrangement = Arrangement.Center
     )
     {
-        //Image(painter = painterResource() )
+        Image(painter = painterResource(R.drawable.logo), contentDescription = "" )
         Spacer(modifier = Modifier.padding(vertical = 20.dp))
         OutlinedTextField(value = usuario.value,
             onValueChange = {usuario.value = it
@@ -100,5 +101,7 @@ fun LoginScreen(navController: NavController){
                 Text(text = "Iniciar Sesion")
             }
         }
+        Spacer(modifier = Modifier.padding(vertical = 15.dp))
+        Text(text = "Olvide mi contraseña")
     }
 }
