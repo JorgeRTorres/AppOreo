@@ -48,7 +48,7 @@ fun BottonNavigationBar() {
                             Icon(
                                 painter = painterResource(id = item.icono),
                                 contentDescription = item.nombre,
-                                modifier = Modifier.size(48.dp)
+                                modifier = Modifier.size(35.dp)
                             )
                         },
                         onClick = {
