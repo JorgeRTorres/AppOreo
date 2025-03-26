@@ -22,7 +22,7 @@ import kotlinx.coroutines.delay
 @Composable
 fun SplashScreen(navController: NavController) {
     var isVisible by remember { mutableStateOf(false) }
-    var backgroundColor by remember { mutableStateOf(Color(0xFF1E1E1E)) }
+    var backgroundColor by remember { mutableStateOf(Color(0xFF00CDD7)) }
 
     val animatedBackground by animateColorAsState(
         targetValue = backgroundColor,
@@ -32,7 +32,7 @@ fun SplashScreen(navController: NavController) {
     LaunchedEffect(Unit) {
         isVisible = true
         delay(3000)
-        backgroundColor = Color.White
+        backgroundColor = Color(0xFF00CDD7)
         delay(3000)
         navController.popBackStack()
         navController.navigate(AppScreens.LoginScreen.route)
@@ -44,6 +44,23 @@ fun SplashScreen(navController: NavController) {
             .background(animatedBackground), // Usa el color animado
         contentAlignment = Alignment.Center
     ) {
+
+        // Huellas en el fondo
+        Image(
+            painter = painterResource(R.drawable.huella2), // Imagen de huella
+            contentDescription = "Huella",
+            modifier = Modifier
+                .size(150.dp)
+                .offset(x = (-100).dp, y = (-300).dp) // Posición superior izquierda
+        )
+        Image(
+            painter = painterResource(R.drawable.huella2),
+            contentDescription = "Huella",
+            modifier = Modifier
+                .size(170.dp)
+                .offset(x = (50).dp, y = (300).dp) // Posición inferior derecha
+        )
+
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             AnimatedVisibility(
                 visible = isVisible,
