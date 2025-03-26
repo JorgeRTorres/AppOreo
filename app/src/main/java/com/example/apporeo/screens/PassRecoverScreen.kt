@@ -74,7 +74,9 @@ fun PassRecoverScreen(navController: NavController) {
 
         Spacer(modifier = Modifier.height(10.dp))
 
-        TextButton(onClick = {}) {
+        TextButton(onClick = {
+            navController.navigate(AppScreens.LoginScreen.route)
+        }) {
             Text(text = "Volver al inicio de sesión")
         }
     }
