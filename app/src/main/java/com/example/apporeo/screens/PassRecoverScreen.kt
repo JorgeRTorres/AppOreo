@@ -29,7 +29,5 @@ fun PassRecoverScreen(navController: NavController){
         horizontalAlignment = Alignment.CenterHorizontally, // Centra el contenido horizontalmente
         verticalArrangement = Arrangement.Center // Centra el contenido verticalmente
     )
-    {
-
-    }
+    {}
 }
