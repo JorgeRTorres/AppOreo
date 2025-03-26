@@ -42,95 +42,102 @@ fun LoginScreen(navController: NavController){
     var errorPassword = remember { mutableStateOf(false) }
 
 
-    Image(
-        painter = painterResource(R.drawable.huella2), // Imagen de huella
-        contentDescription = "Huella",
+    Box(
         modifier = Modifier
-            .size(150.dp)
-            .offset(x = (-100).dp, y = (-300).dp) // Posición superior izquierda
-    )
-    Image(
-        painter = painterResource(R.drawable.huella2),
-        contentDescription = "Huella",
-        modifier = Modifier
-            .size(170.dp)
-            .offset(x = (50).dp, y = (300).dp) // Posición inferior derecha
-    )
+            .fillMaxSize()
+            .background(Color(0xFF00CDD7)), // Fondo cubre toda la pantalla
+        contentAlignment = Alignment.Center
+    ){
+        Image(
+            painter = painterResource(R.drawable.huella2), // Imagen de huella
+            contentDescription = "Huella",
+            modifier = Modifier
+                .size(150.dp)
+                .offset(x = (-100).dp, y = (-300).dp) // Posición superior izquierda
+        )
+        Image(
+            painter = painterResource(R.drawable.huella2),
+            contentDescription = "Huella",
+            modifier = Modifier
+                .size(170.dp)
+                .offset(x = (50).dp, y = (300).dp) // Posición inferior derecha
+        )
 
 
-    Column (
-        modifier = Modifier.fillMaxSize().padding(16.dp).background(Color(0xFF00CDD7)),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    )
-    {
-        Image(painter = painterResource(R.drawable.logo), contentDescription = "" )
-        Spacer(modifier = Modifier.padding(vertical = 20.dp))
-        OutlinedTextField(value = usuario.value,
-            onValueChange = {usuario.value = it
-                errorUsuario.value = it.isEmpty()},
-            singleLine = true,
-            isError = errorUsuario.value,
-            label = { Text("Ingresa tu usuario") },
-            trailingIcon = {
-                if (errorUsuario.value){
-                    Icon(Icons.Filled.Warning, contentDescription = "Error", tint = Color.Red)
-                }
-            })
-
-        if (errorUsuario.value){
-            Text(color = Color.Red, text = "No deje usuario vacio")
-        }
-        Spacer(modifier = Modifier.padding(vertical = 5.dp))
-        //caja de texto de password
-        OutlinedTextField(
-            value = password.value,
-            onValueChange = {password.value = it
-                                errorPassword.value = it.isEmpty()},
-            singleLine = true,
-            visualTransformation = PasswordVisualTransformation(),
-            isError = errorPassword.value,
-            label = { Text("Ingresa tu contraseña") },
-            trailingIcon = {
-                if (errorPassword.value){
-                    Icon(Icons.Filled.Warning, contentDescription = "Error", tint = Color.Red)
-                }
-            })
-        if (errorPassword.value){
-            Text(color = Color.Red, text = "No deje password vacio")
-        }
-        Spacer(modifier = Modifier.padding(vertical = 20.dp))
-        Row (modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.Center){
-            Button(onClick = {
-
-                if (usuario.value.isEmpty())
-                    errorUsuario.value = true
-                else{
-                    errorUsuario.value = false
-                }
-
-                if (password.value.isEmpty())
-                    errorPassword.value = true
-                else{
-                    errorPassword.value = false
-                }
-
-                if(!errorUsuario.value && !errorPassword.value){
-                    navController.navigate(AppScreens.HomeScreen.route){
-                        //evita retroceder al login una vez logeado
-                        popUpTo(AppScreens.LoginScreen.route) { inclusive = true }
-                    }
-                }
-
-            }, modifier = Modifier.width(220.dp)) {
-                Text(text = "Iniciar Sesion")
-            }
-        }
-        Spacer(modifier = Modifier.padding(vertical = 15.dp))
-        TextButton (onClick = {navController.navigate(AppScreens.PassRecoverScreen.route)})
+        Column (
+            modifier = Modifier.fillMaxSize().padding(16.dp).background(Color(0xFF00CDD7)),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        )
         {
-            Text(text = "Olvide mi contraseña")
+            Image(painter = painterResource(R.drawable.logo), contentDescription = "" )
+            Spacer(modifier = Modifier.padding(vertical = 20.dp))
+            OutlinedTextField(value = usuario.value,
+                onValueChange = {usuario.value = it
+                    errorUsuario.value = it.isEmpty()},
+                singleLine = true,
+                isError = errorUsuario.value,
+                label = { Text("Ingresa tu usuario") },
+                trailingIcon = {
+                    if (errorUsuario.value){
+                        Icon(Icons.Filled.Warning, contentDescription = "Error", tint = Color.Red)
+                    }
+                })
+
+            if (errorUsuario.value){
+                Text(color = Color.Red, text = "No deje usuario vacio")
+            }
+            Spacer(modifier = Modifier.padding(vertical = 5.dp))
+            //caja de texto de password
+            OutlinedTextField(
+                value = password.value,
+                onValueChange = {password.value = it
+                    errorPassword.value = it.isEmpty()},
+                singleLine = true,
+                visualTransformation = PasswordVisualTransformation(),
+                isError = errorPassword.value,
+                label = { Text("Ingresa tu contraseña") },
+                trailingIcon = {
+                    if (errorPassword.value){
+                        Icon(Icons.Filled.Warning, contentDescription = "Error", tint = Color.Red)
+                    }
+                })
+            if (errorPassword.value){
+                Text(color = Color.Red, text = "No deje password vacio")
+            }
+            Spacer(modifier = Modifier.padding(vertical = 20.dp))
+            Row (modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.Center){
+                Button(onClick = {
+
+                    if (usuario.value.isEmpty())
+                        errorUsuario.value = true
+                    else{
+                        errorUsuario.value = false
+                    }
+
+                    if (password.value.isEmpty())
+                        errorPassword.value = true
+                    else{
+                        errorPassword.value = false
+                    }
+
+                    if(!errorUsuario.value && !errorPassword.value){
+                        navController.navigate(AppScreens.HomeScreen.route){
+                            //evita retroceder al login una vez logeado
+                            popUpTo(AppScreens.LoginScreen.route) { inclusive = true }
+                        }
+                    }
+
+                }, modifier = Modifier.width(220.dp)) {
+                    Text(text = "Iniciar Sesion")
+                }
+            }
+            Spacer(modifier = Modifier.padding(vertical = 15.dp))
+            TextButton (onClick = {navController.navigate(AppScreens.PassRecoverScreen.route)})
+            {
+                Text(text = "Olvide mi contraseña")
+            }
         }
     }
 }
