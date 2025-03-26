@@ -15,6 +15,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -94,7 +95,10 @@ fun LoginScreen(navController: NavController){
                 }
 
                 if(!errorUsuario.value && !errorPassword.value){
-                    navController.navigate(AppScreens.HomeScreen.route)
+                    navController.navigate(AppScreens.HomeScreen.route){
+                        //evita retroceder al login una vez logeado
+                        popUpTo(AppScreens.LoginScreen.route) { inclusive = true }
+                    }
                 }
 
             }, modifier = Modifier.width(220.dp)) {
@@ -102,6 +106,9 @@ fun LoginScreen(navController: NavController){
             }
         }
         Spacer(modifier = Modifier.padding(vertical = 15.dp))
-        Text(text = "Olvide mi contraseña")
+        TextButton (onClick = {})
+        {
+            Text(text = "Olvide mi contraseña")
+        }
     }
 }
