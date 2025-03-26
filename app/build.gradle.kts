@@ -43,6 +43,7 @@ dependencies {
 
     //Se agrega para poder manejar la navegacion de varias pantallas
     implementation("androidx.navigation:navigation-compose:2.8.9")
+    implementation("androidx.compose.ui:ui-text-google-fonts:1.3.0")
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
