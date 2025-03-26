@@ -106,7 +106,7 @@ fun LoginScreen(navController: NavController){
             }
         }
         Spacer(modifier = Modifier.padding(vertical = 15.dp))
-        TextButton (onClick = {})
+        TextButton (onClick = {navController.navigate(AppScreens.PassRecoverScreen.route)})
         {
             Text(text = "Olvide mi contraseña")
         }
