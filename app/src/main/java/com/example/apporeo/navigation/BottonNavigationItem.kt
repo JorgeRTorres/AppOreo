@@ -1,4 +1,24 @@
 package com.example.apporeo.navigation
+import com.example.apporeo.R
 
-class BottonNavigationItem {
+data class BottonNavigationItem(
+
+    val nombre: String = "",
+    val icono: Int = 0,
+    val route: String = ""
+
+)
+{
+    fun listaItems(): MutableList<BottonNavigationItem>
+    {
+        var lista: MutableList<BottonNavigationItem>
+        lista = mutableListOf(
+
+        )
+        return lista;
+
+    }
+
 }
+
+
