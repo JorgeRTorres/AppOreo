@@ -18,6 +18,7 @@ import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -65,14 +66,19 @@ fun LoginScreen(navController: NavController){
 
 
         Column (
-            modifier = Modifier.fillMaxSize().padding(16.dp).background(Color(0xFF00CDD7)),
+            modifier = Modifier.fillMaxSize().padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         )
         {
             Image(painter = painterResource(R.drawable.logo), contentDescription = "" )
             Spacer(modifier = Modifier.padding(vertical = 20.dp))
-            OutlinedTextField(value = usuario.value,
+            OutlinedTextField(
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedContainerColor = Color.White,
+                    unfocusedContainerColor = Color.White
+                ),
+                value = usuario.value,
                 onValueChange = {usuario.value = it
                     errorUsuario.value = it.isEmpty()},
                 singleLine = true,
@@ -90,6 +96,10 @@ fun LoginScreen(navController: NavController){
             Spacer(modifier = Modifier.padding(vertical = 5.dp))
             //caja de texto de password
             OutlinedTextField(
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedContainerColor = Color.White,
+                    unfocusedContainerColor = Color.White
+                ),
                 value = password.value,
                 onValueChange = {password.value = it
                     errorPassword.value = it.isEmpty()},
