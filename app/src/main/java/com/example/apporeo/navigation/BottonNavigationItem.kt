@@ -21,7 +21,6 @@ data class BottonNavigationItem(
 
         )
         return lista;
-
     }
 
 }

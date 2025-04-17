@@ -5,6 +5,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.apporeo.screens.HomeScreen
+import com.example.apporeo.screens.InsertScreen
 import com.example.apporeo.screens.LoginScreen
 import com.example.apporeo.screens.PassRecoverScreen
 import com.example.apporeo.screens.SplashScreen
@@ -33,6 +34,10 @@ fun AppNavigation()
         composable(route = AppScreens.PassRecoverScreen.route)
         {
             PassRecoverScreen(navController)
+        }
+        composable(route = AppScreens.InsertScreen.route)
+        {
+            InsertScreen(navController)
         }
 
     }
