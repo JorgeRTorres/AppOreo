@@ -68,7 +68,10 @@ fun BottonNavigationBar(navController: NavController) {
                 onConfirm = {
                     showLogoutDialog.value = false
                     navController.navigate("login") {
-                        popUpTo(0)
+                        popUpTo(navController.graph.findStartDestination().id) {
+                            inclusive = true
+                        }
+                        launchSingleTop = true
                     }
                 },
                 onDismiss = {

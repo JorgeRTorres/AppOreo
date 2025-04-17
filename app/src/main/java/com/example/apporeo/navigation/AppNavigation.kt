@@ -39,6 +39,9 @@ fun AppNavigation()
         {
             InsertScreen(navController)
         }
+        composable("login") {
+            LoginScreen(navController)
+        }
 
     }
 
