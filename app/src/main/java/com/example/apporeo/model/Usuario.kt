@@ -4,5 +4,5 @@ data class Usuario(
     var id: String,
     var nombre: String,
     var password: String,
-    var contrasena: String,
+    var contrasena: String
 )
