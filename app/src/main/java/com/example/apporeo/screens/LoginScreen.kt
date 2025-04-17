@@ -27,7 +27,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -41,7 +40,7 @@ fun LoginScreen(navController: NavController){
     var password = remember { mutableStateOf("") }
     var errorUsuario = remember { mutableStateOf(false) }
     var errorPassword = remember { mutableStateOf(false) }
-
+    var errorLogin = remember { mutableStateOf(false) }  // Error para credenciales incorrectas
 
     Box(
         modifier = Modifier
@@ -115,27 +114,39 @@ fun LoginScreen(navController: NavController){
             if (errorPassword.value){
                 Text(color = Color.Red, text = "No deje password vacio")
             }
+
+            // Mostrar error de credenciales incorrectas
+            if (errorLogin.value) {
+                Text(color = Color.Red, text = "Usuario o contraseña incorrectos.")
+            }
+
             Spacer(modifier = Modifier.padding(vertical = 20.dp))
             Row (modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.Center){
                 Button(onClick = {
 
+                    // Validar campos vacíos
                     if (usuario.value.isEmpty())
                         errorUsuario.value = true
-                    else{
+                    else
                         errorUsuario.value = false
-                    }
 
                     if (password.value.isEmpty())
                         errorPassword.value = true
-                    else{
+                    else
                         errorPassword.value = false
-                    }
 
-                    if(!errorUsuario.value && !errorPassword.value){
-                        navController.navigate(AppScreens.HomeScreen.route){
-                            //evita retroceder al login una vez logeado
-                            popUpTo(AppScreens.LoginScreen.route) { inclusive = true }
+                    // Verificar las credenciales
+                    if (!errorUsuario.value && !errorPassword.value) {
+                        if (usuario.value == "admin" && password.value == "admin123") {
+                            // Si las credenciales son correctas
+                            navController.navigate(AppScreens.HomeScreen.route) {
+                                // Evita retroceder al login una vez logeado
+                                popUpTo(AppScreens.LoginScreen.route) { inclusive = true }
+                            }
+                        } else {
+                            // Si las credenciales son incorrectas
+                            errorLogin.value = true
                         }
                     }
 
@@ -144,8 +155,7 @@ fun LoginScreen(navController: NavController){
                 }
             }
             Spacer(modifier = Modifier.padding(vertical = 15.dp))
-            TextButton (onClick = {navController.navigate(AppScreens.PassRecoverScreen.route)})
-            {
+            TextButton (onClick = {navController.navigate(AppScreens.PassRecoverScreen.route)}){
                 Text(text = "Olvide mi contraseña")
             }
         }
