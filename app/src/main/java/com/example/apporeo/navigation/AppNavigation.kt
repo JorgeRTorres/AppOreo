@@ -34,6 +34,7 @@ fun AppNavigation()
         {
             PassRecoverScreen(navController)
         }
+        
 
     }
 
