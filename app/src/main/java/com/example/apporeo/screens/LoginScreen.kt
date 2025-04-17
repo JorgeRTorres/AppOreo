@@ -33,6 +33,10 @@ import androidx.navigation.NavController
 import com.example.apporeo.navigation.AppScreens
 import androidx.compose.ui.res.painterResource
 import com.example.apporeo.R
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.firestore.ktx.firestore
+
+val db = Firebase.firestore
 
 @Composable
 fun LoginScreen(navController: NavController){
@@ -115,7 +119,6 @@ fun LoginScreen(navController: NavController){
                 Text(color = Color.Red, text = "No deje password vacio")
             }
 
-            // Mostrar error de credenciales incorrectas
             if (errorLogin.value) {
                 Text(color = Color.Red, text = "Usuario o contraseña incorrectos.")
             }
