@@ -14,9 +14,6 @@ data class BottonNavigationItem(
         var lista: MutableList<BottonNavigationItem>
         lista = mutableListOf(
             BottonNavigationItem("", R.drawable.home, MenuScreens.HomeMenuScreen.route),
-            BottonNavigationItem("", R.drawable.lupa, MenuScreens.BuscarMenuScreen.route),
-            BottonNavigationItem("", R.drawable.reels, MenuScreens.AgregarMenuScreen.route),
-            BottonNavigationItem("", R.drawable.notificacion, MenuScreens.NotificionesMenuScreen.route),
             BottonNavigationItem("", R.drawable.user, MenuScreens.PerfilMenuScreen.route)
 
         )

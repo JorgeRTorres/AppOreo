@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "39634490548",
+    "project_id": "apporeo-12",
+    "storage_bucket": "apporeo-12.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:39634490548:android:9b95f932da2039005fb3e1",
+        "android_client_info": {
+          "package_name": "com.example.apporeo"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDxcsFA1D8hn2SiXeD5xOSpED1QouvbURc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
