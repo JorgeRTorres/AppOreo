@@ -20,11 +20,23 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavController
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import java.util.Calendar
+import android.app.DatePickerDialog
+import android.widget.Toast
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.ui.text.TextRange
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.sp
 
-//val db = Firebase.firestore
+
+val dbs  = Firebase.firestore
 
 @Composable
 fun InsertScreen(navController: NavController)
@@ -50,15 +62,19 @@ fun InsertData(){
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center)
     {
-       //Variables de modelo
+        //Variables de modelo
         var abriComposable by remember { mutableStateOf(false) }
         var codigo by remember { mutableStateOf("") }
         var nombreProducto by remember { mutableStateOf("") }
         var descripcion by remember { mutableStateOf("") }
         var cantidad by remember { mutableStateOf("") }
-        var fechaVencimiento by remember { mutableStateOf("") }
+        var fechaVencimiento by remember { mutableStateOf(TextFieldValue("")) }
+        //var openDatePicker by remember { mutableStateOf(false) }
 
-        Text(modifier = Modifier.size(18.dp).fillMaxWidth(), text = "Registro de nuevo producto")
+        /*val context = LocalContext.current
+        val calendar = remember { Calendar.getInstance() }*/
+
+        Text(modifier = Modifier.fillMaxWidth(), text = "Registro de nuevo producto", style = TextStyle(fontSize = 18.sp), textAlign = TextAlign.Center)
         Spacer(modifier = Modifier.padding(vertical = 6.dp))
         OutlinedTextField(
             singleLine = true,
@@ -90,22 +106,89 @@ fun InsertData(){
         Spacer(modifier = Modifier.padding(vertical = 6.dp))
         OutlinedTextField(
             singleLine = true,
-            label = { Text(text = "Ingrese fecha de vencimiento") },
+            label = { Text("dd/MM/yyyy") },
             value = fechaVencimiento,
-            onValueChange = { fechaVencimiento = it }
-        )
-        Spacer(modifier = Modifier.padding(vertical = 6.dp))
-        Button(onClick = {abriComposable = true})
-        {
-            /*if (abriComposable) {
-                abriComposable = false
-                GuardarEnBD(codigo, nombreProducto, descripcion, cantidad, fechaVencimiento)
-                codigo = ""
-                nombreProducto = ""
-                descripcion = ""
-                cantidad = ""
-                fechaVencimiento = ""
+            onValueChange = { newValue ->
+                val digits = newValue.text.filter { it.isDigit() }
+
+                val formatted = buildString {
+                    for (i in digits.indices) {
+                        append(digits[i])
+                        if ((i == 1 || i == 3) && i != digits.lastIndex) append('/')
+                    }
+                }
+
+                // Calculamos nueva posición del cursor
+                val newCursorPos = if (fechaVencimiento.text.length < formatted.length) {
+                    newValue.selection.end + 1 // Añadimos una barra
+                } else {
+                    newValue.selection.end
+                }.coerceAtMost(formatted.length)
+
+                fechaVencimiento = TextFieldValue(
+                    text = formatted,
+                    selection = TextRange(newCursorPos)
+                )
+            },
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+
+
+            /*readOnly = true,
+            trailingIcon = {
+                Button(onClick = {openDatePicker = true}) {
+                    Text("selecionar")
+                }
             }*/
+        )
+
+        /*if (openDatePicker) {
+            DatePickerDialog(
+                context,
+                { _, year, month, dayOfMonth ->
+                    val formattedDate = "$dayOfMonth/${month + 1}/$year"
+                    fechaVencimiento = formattedDate
+                    openDatePicker = false
+                },
+                calendar.get(Calendar.YEAR),
+                calendar.get(Calendar.MONTH),
+                calendar.get(Calendar.DAY_OF_MONTH)
+            ).show()
+        }*/
+
+        Spacer(modifier = Modifier.padding(vertical = 6.dp))
+        Button(onClick = {abriComposable = true}){
+            Text(text = "Registrar")
+        }
+        if (abriComposable) {
+            abriComposable = false
+            GuardarEnBD(codigo, nombreProducto, descripcion, cantidad, fechaVencimiento.text)
+            codigo = ""
+            nombreProducto = ""
+            descripcion = ""
+            cantidad = ""
+            fechaVencimiento = TextFieldValue("")
         }
     }
+}
+
+@Composable
+fun GuardarEnBD(codigo:String, nombreProducto:String, descripcion:String, cantidad:String, fechaVencimiento:String)
+{
+    var guardar = remember { mutableStateOf(false) }
+    var context = LocalContext.current
+    val producto = hashMapOf(
+        "codigo" to codigo,
+        "nombreProducto" to nombreProducto,
+        "descripcion" to descripcion,
+        "cantidad" to cantidad.toInt(),
+        "fechaVencimiento" to fechaVencimiento
+    )
+    dbs.collection("Productos")
+        .add(producto)
+        .addOnSuccessListener {
+            Toast.makeText(context, "Producto registrado correctamente", Toast.LENGTH_SHORT).show()
+        }
+        .addOnFailureListener {
+            Toast.makeText(context, "Error al registrar el producto", Toast.LENGTH_SHORT).show()
+        }
 }

@@ -7,4 +7,5 @@ sealed class AppScreens(val route: String)
     object HomeScreen: AppScreens("Home_Screen")
     object PassRecoverScreen: AppScreens("Pass_Recover_Screen")
     object InsertScreen: AppScreens("InsertScreen")
+    object LogoutScreen: AppScreens("Logout_Screen")
 }

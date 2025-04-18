@@ -11,9 +11,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
+import com.example.apporeo.navigation.AppScreens
 import com.example.apporeo.navigation.BottonNavigationItem
+import com.example.apporeo.navigation.MenuNavigation
 
-@Composable
+/*@Composable
 fun HomeScreen(navController: NavController) {
     BottonNavigationBar(navController = navController)
 }
@@ -63,6 +65,60 @@ fun BottonNavigationBar(navController: NavController) {
             }
         }
     ) {
+        if (showLogoutDialog.value) {
+            LogoutDialogScreen(
+                onConfirm = {
+                    showLogoutDialog.value = false
+                    navController.navigate("login") {
+                        popUpTo(navController.graph.findStartDestination().id) {
+                            inclusive = true
+                        }
+                        launchSingleTop = true
+                    }
+                },
+                onDismiss = {
+                    showLogoutDialog.value = false
+                }
+            )
+        }
+    }
+}*/
+
+@Composable
+fun HomeScreen(navController: NavController){
+    MenuNavigation()
+}
+
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
+@Composable
+fun BottomNavigationBar(navController: NavController){
+    var itemSeleccionado = remember { mutableIntStateOf(0) }
+    val showLogoutDialog = remember { mutableStateOf(false) }
+    Scaffold(modifier = Modifier.fillMaxSize(),
+        bottomBar =
+        {
+            NavigationBar { BottonNavigationItem().listaItems().forEachIndexed { index, item ->
+                NavigationBarItem(
+                    selected = itemSeleccionado.intValue == index,
+                    label = { Text(text = item.nombre, fontSize = 12.sp) },
+                    icon = { Icon(painterResource(item.icono), contentDescription = "", modifier = Modifier.size(35.dp)) },
+                    onClick = {
+                        itemSeleccionado.intValue = index
+                        navController.navigate(item.route)
+                        {
+                            popUpTo(item.route)
+                            {
+                                saveState = true
+                            }
+                            launchSingleTop = true
+                            restoreState = true
+                        }
+                    },
+                )
+            }
+            }
+        })
+    {
         if (showLogoutDialog.value) {
             LogoutDialogScreen(
                 onConfirm = {

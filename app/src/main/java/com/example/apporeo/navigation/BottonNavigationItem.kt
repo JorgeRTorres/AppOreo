@@ -14,11 +14,10 @@ data class BottonNavigationItem(
         var lista: MutableList<BottonNavigationItem>
         lista = mutableListOf(
             BottonNavigationItem("Home", R.drawable.home, MenuScreens.HomeMenuScreen.route),
-            BottonNavigationItem("User", R.drawable.user, MenuScreens.PerfilMenuScreen.route),
-            BottonNavigationItem("Insert", R.drawable.insertar, MenuScreens.PerfilMenuScreen.route),
-            BottonNavigationItem("Logout", R.drawable.logout, "logout")
-
-
+            BottonNavigationItem("User", R.drawable.user, MenuScreens.PerfilScreen.route),
+            BottonNavigationItem("Insert", R.drawable.insertar, MenuScreens.InsertScreen.route),
+            BottonNavigationItem("Logout", R.drawable.logout, MenuScreens.LogoutScreen.route),
+            //BottonNavigationItem("Logout", R.drawable.logout, "logout")
         )
         return lista;
     }
