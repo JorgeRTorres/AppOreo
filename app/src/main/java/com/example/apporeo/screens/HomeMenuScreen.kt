@@ -25,6 +25,7 @@ fun HomeMenuScreen(navController: NavController) {
     var productos by remember { mutableStateOf<List<Productos>>(emptyList()) }
     var cargando by remember { mutableStateOf(true) }
 
+    // Cargar productos desde Firebase
     LaunchedEffect(true) {
         cargando = true
         db.collection("Productos")
@@ -79,17 +80,34 @@ fun HomeMenuScreen(navController: NavController) {
 
 @Composable
 fun ListadoProductos(productos: List<Productos>) {
-    LazyColumn(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(12.dp)
-    ) {
-        items(productos) { producto ->
-            ProductoItem(producto)
-            Spacer(modifier = Modifier.height(8.dp))
+    Column(modifier = Modifier.fillMaxSize(),
+        verticalArrangement =  Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally ) {
+        Text(
+            text = "Listado de Productos",
+            style = MaterialTheme.typography.headlineMedium,
+            modifier = Modifier
+                .padding(vertical =  16.dp),
+            color = MaterialTheme.colorScheme.primary
+        )
+
+        Spacer(modifier = Modifier.padding(vertical = 20.dp))
+
+
+        // Lista de productos
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(horizontal = 12.dp)
+        ) {
+            items(productos) { producto ->
+                ProductoItem(producto)
+                Spacer(modifier = Modifier.height(8.dp))
+            }
         }
     }
 }
+
 
 @Composable
 fun ProductoItem(producto: Productos) {
