@@ -12,7 +12,6 @@ data class BottonNavigationItem(
 object BottonNavigationItemsProvider {
     fun getItems(): List<BottonNavigationItem> = listOf(
         BottonNavigationItem("Home", R.drawable.home, MenuScreens.HomeMenuScreen.route),
-        BottonNavigationItem("User", R.drawable.user, MenuScreens.PerfilScreen.route),
         BottonNavigationItem("Insert", R.drawable.insertar, MenuScreens.InsertScreen.route),
         BottonNavigationItem("Logout", R.drawable.logout, MenuScreens.LogoutScreen.route)
     )

@@ -25,7 +25,6 @@ fun HomeMenuScreen(navController: NavController) {
     var productos by remember { mutableStateOf<List<Productos>>(emptyList()) }
     var cargando by remember { mutableStateOf(true) }
 
-    // Cargar productos desde Firebase
     LaunchedEffect(true) {
         cargando = true
         db.collection("Productos")

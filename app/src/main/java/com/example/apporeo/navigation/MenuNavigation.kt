@@ -17,9 +17,6 @@ fun MenuNavigation(navController: NavHostController, modifier: Modifier = Modifi
         composable(MenuScreens.HomeMenuScreen.route) {
             HomeMenuScreen(navController)
         }
-        composable(MenuScreens.PerfilScreen.route) {
-            PerfilScreen(navController)
-        }
         composable(MenuScreens.InsertScreen.route) {
             InsertScreen(navController)
         }

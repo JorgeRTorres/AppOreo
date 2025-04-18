@@ -25,10 +25,9 @@ fun LogoutDialogScreen(
                 // 1. Borrar preferencias (si las usas)
                 context.getSharedPreferences("mis_prefs", Context.MODE_PRIVATE)
                     .edit()
-                    .clear() // Limpiar todas las credenciales
+                    .clear()
                     .apply()
 
-                // 2. Navegar al login y limpiar la pila de navegación
                 navController.navigate(AppScreens.LoginScreen.route) {
                     // Asegúrate de limpiar correctamente la pila de navegación
                     popUpTo(AppScreens.SplashScreen.route) { inclusive = true }
