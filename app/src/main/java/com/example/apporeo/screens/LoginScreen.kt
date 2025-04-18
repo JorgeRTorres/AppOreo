@@ -1,5 +1,7 @@
 package com.example.apporeo.screens
 
+import android.content.Context
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -27,6 +29,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -35,8 +38,9 @@ import androidx.compose.ui.res.painterResource
 import com.example.apporeo.R
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.firestore.ktx.firestore
+import android.content.Context.MODE_PRIVATE
+import com.example.apporeo.navigation.MenuScreens
 
-val db = Firebase.firestore
 
 @Composable
 fun LoginScreen(navController: NavController){
@@ -45,6 +49,7 @@ fun LoginScreen(navController: NavController){
     var errorUsuario = remember { mutableStateOf(false) }
     var errorPassword = remember { mutableStateOf(false) }
     var errorLogin = remember { mutableStateOf(false) }  // Error para credenciales incorrectas
+    val context = LocalContext.current
 
     Box(
         modifier = Modifier
@@ -97,7 +102,6 @@ fun LoginScreen(navController: NavController){
                 Text(color = Color.Red, text = "No deje usuario vacio")
             }
             Spacer(modifier = Modifier.padding(vertical = 5.dp))
-            //caja de texto de password
             OutlinedTextField(
                 colors = OutlinedTextFieldDefaults.colors(
                     focusedContainerColor = Color.White,
@@ -128,30 +132,20 @@ fun LoginScreen(navController: NavController){
                 horizontalArrangement = Arrangement.Center){
                 Button(onClick = {
 
-                    // Validar campos vacíos
-                    if (usuario.value.isEmpty())
-                        errorUsuario.value = true
-                    else
-                        errorUsuario.value = false
+                    verificarCredenciales(
+                        context,
+                        usuario.value,
+                        password.value,
 
-                    if (password.value.isEmpty())
-                        errorPassword.value = true
-                    else
-                        errorPassword.value = false
-
-                    // Verificar las credenciales
-                    if (!errorUsuario.value && !errorPassword.value) {
-                        if (usuario.value == "admin" && password.value == "admin123") {
-                            // Si las credenciales son correctas
+                        onSuccess = {
                             navController.navigate(AppScreens.HomeScreen.route) {
-                                // Evita retroceder al login una vez logeado
                                 popUpTo(AppScreens.LoginScreen.route) { inclusive = true }
                             }
-                        } else {
-                            // Si las credenciales son incorrectas
+                        },
+                        onFailure = {
                             errorLogin.value = true
                         }
-                    }
+                    )
 
                 }, modifier = Modifier.width(220.dp)) {
                     Text(text = "Iniciar Sesion")
@@ -163,4 +157,40 @@ fun LoginScreen(navController: NavController){
             }
         }
     }
+}
+
+
+fun verificarCredenciales(
+    context: Context,
+    usuarioIngresado: String,
+    passwordIngresado: String,
+    onSuccess: () -> Unit,
+    onFailure: () -> Unit
+) {
+    Firebase.firestore.collection("usuarios")
+        .whereEqualTo("usuario", usuarioIngresado)
+        .get()
+        .addOnSuccessListener { result ->
+            if (!result.isEmpty) {
+                val documento = result.documents[0]
+                val passwordGuardado = documento.getString("password")
+
+                if (passwordGuardado == passwordIngresado) {
+                    // ✅ Guardar nombre en SharedPreferences
+                    val nombre = documento.getString("nombre")
+                    val prefs = context.getSharedPreferences("session", MODE_PRIVATE)
+                    prefs.edit().putString("nombre", nombre).apply()
+
+                    onSuccess()
+                } else {
+                    onFailure()
+                }
+            } else {
+                onFailure()
+            }
+        }
+        .addOnFailureListener {
+            Toast.makeText(context, "Error de conexión con Firebase", Toast.LENGTH_SHORT).show()
+            onFailure()
+        }
 }
